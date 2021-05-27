@@ -1,0 +1,57 @@
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class GoogleDucks {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+
+		/**
+		 * Create tests to search Google for "Ducks"
+		 * 
+		 * @author Crystal
+		 **/
+
+		System.setProperty("webdriver.chrome.driver", WebDriverTools.chromeDriverDetector());
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+
+//Test 1 - Open site
+		
+		driver.get("https://www.google.com/");
+
+//Test 2 - Verify you can use search bar
+
+		driver.findElement(By.xpath("//input[@name='q']")).sendKeys("ducks");
+		driver.findElement(By.tagName("input")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.tagName("input")).sendKeys(Keys.ENTER);
+		Thread.sleep(2000);
+
+//Test 3- Verify that Google page with ducks loads 
+
+		String t = "This google search for ducks";
+		// identify elements with text()
+		List<WebElement> l = driver.findElements(By.xpath("//*[contains(text(),'Duck')]"));
+		// verify list size
+		if (l.size() > 0) {
+			System.out.println("Text: " + t + " worked! ");
+		} else {
+			System.out.println("Text: " + t + " failed. ");
+		}
+
+//Test 4- Verify you can go into a search result
+
+		driver.findElement(By.xpath("//*[contains(text(),'Duck - Wikipedia')]")).click();
+
+//Test 5- Verify you can return back to search results page
+
+		driver.navigate().back();
+
+	}
+
+}
